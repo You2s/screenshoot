@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #0a0a0a;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.input {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #fff;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+
+.input::placeholder {
+  color: rgba(255,255,255,0.2);
+}
+
+.input:focus {
+  border-color: rgba(255,255,255,0.3);
+}
+
+#phone-scale-wrapper {
+  transform: scale(0.72);
+  transform-origin: top center;
+}
+@media (min-width: 640px) {
+  #phone-scale-wrapper { transform: scale(0.82); }
+}
+@media (min-width: 1024px) {
+  #phone-scale-wrapper { transform: scale(0.9); }
+}
