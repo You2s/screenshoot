@@ -45,7 +45,6 @@ export default function PhoneMockup(
 
   return (
     <div
-      ref={ref}
       style={{
         width: 390,
         height: 844,
