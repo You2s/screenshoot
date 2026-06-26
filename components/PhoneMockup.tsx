@@ -1,7 +1,5 @@
 "use client";
 
-import { forwardRef } from "react";
-
 export type MessageNotif = {
   app: "imessage" | "whatsapp";
   sender: string;
@@ -33,9 +31,8 @@ function timeMaskUrl(time: string) {
   return `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
 }
 
-const PhoneMockup = forwardRef<HTMLDivElement, Props>(function PhoneMockup(
-  { theme, bgUrl, time, date, carrier, messageNotif, appNotif, appIcon, appName },
-  ref
+export default function PhoneMockup(
+  { theme, bgUrl, time, date, carrier, messageNotif, appNotif, appIcon, appName }: Props
 ) {
   const isDark = theme === "dark";
   const iconSuffix = isDark ? "light" : "dark";
@@ -226,9 +223,7 @@ const PhoneMockup = forwardRef<HTMLDivElement, Props>(function PhoneMockup(
       }} />
     </div>
   );
-});
-
-export default PhoneMockup;
+}
 
 function BottomButton({ children }: { children: React.ReactNode }) {
   return (

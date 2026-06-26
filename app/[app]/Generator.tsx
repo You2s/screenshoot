@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import type { AppConfig } from "./page";
 import PhoneMockup, { type MessageNotif, type AppNotif } from "@/components/PhoneMockup";
@@ -33,7 +33,6 @@ const MESSAGE_PRESETS = [
 ];
 
 export default function Generator({ config }: { config: AppConfig }) {
-  const phoneRef = useRef<HTMLDivElement>(null);
 
   const now = new Date();
   const hh = String(now.getHours()).padStart(2, "0");
@@ -79,14 +78,19 @@ export default function Generator({ config }: { config: AppConfig }) {
   }
 
   async function handleScreenshot() {
-    if (!phoneRef.current) return;
     setCapturing(true);
     try {
-      const { toPng } = await import("html-to-image");
-      const dataUrl = await toPng(phoneRef.current, {
-        pixelRatio: 3,
-        skipFonts: false,
-        fetchRequestInit: { cache: "no-cache" },
+      const { renderToCanvas } = await import("@/lib/renderToCanvas");
+      const dataUrl = await renderToCanvas({
+        bgUrl: wallpaperUrl,
+        time,
+        date,
+        carrier,
+        theme,
+        messageNotif: msgNotif,
+        appNotif,
+        appIcon: config.icon,
+        appName: config.name,
       });
       const link = document.createElement("a");
       link.download = `${config.id}-lockscreen.png`;
@@ -104,7 +108,6 @@ export default function Generator({ config }: { config: AppConfig }) {
       <div className="lg:flex-1 flex flex-col items-center justify-center py-10 px-4 gap-6 lg:sticky lg:top-0 lg:h-screen">
         <div id="phone-scale-wrapper" style={{ transform: "scale(0.72)", transformOrigin: "top center" }}>
           <PhoneMockup
-            ref={phoneRef}
             theme={theme}
             bgUrl={wallpaperUrl}
             time={time}
