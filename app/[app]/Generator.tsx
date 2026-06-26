@@ -43,7 +43,7 @@ export default function Generator({ config }: { config: AppConfig }) {
   const [theme]                    = useState<"dark" | "light">("dark");
   const [time, setTime]            = useState(`${hh}:${mm}`);
   const [date, setDate]            = useState(defaultDate);
-  const [carrier, setCarrier]      = useState("Orange");
+  const [carrier, setCarrier]      = useState("Orange F");
   const [wallpaperUrl, setWallpaperUrl]   = useState(WALLPAPERS[0].url);
   const [activeWallpaper, setActiveWallpaper] = useState(WALLPAPERS[0].id);
   const [capturing, setCapturing]  = useState(false);
@@ -222,12 +222,6 @@ export default function Generator({ config }: { config: AppConfig }) {
               </button>
             ))}
           </div>
-          <input
-            value={msgNotif.time}
-            onChange={(e) => setMsgNotif((n) => ({ ...n, time: e.target.value }))}
-            placeholder="maintenant"
-            className="input"
-          />
         </Section>
 
         {/* App notification */}
@@ -238,35 +232,57 @@ export default function Generator({ config }: { config: AppConfig }) {
             placeholder="Thomas vient de suivre @sofia_bts"
             className="input"
           />
-          <input
-            value={appNotif.time}
-            onChange={(e) => setAppNotif((n) => ({ ...n, time: e.target.value }))}
-            placeholder="il y a 2 min"
-            className="input"
-          />
         </Section>
 
-        {/* Lock screen details */}
-        <Section label="Verrouillage">
-          <input
-            type="time"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-            className="input"
-          />
-          <input
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            placeholder="Jeudi 26 juin"
-            className="input"
-          />
-          <input
-            value={carrier}
-            onChange={(e) => setCarrier(e.target.value)}
-            placeholder="Opérateur (ex: Orange)"
-            className="input"
-          />
-        </Section>
+        {/* Advanced collapse */}
+        <details className="group">
+          <summary className="flex items-center justify-between cursor-pointer text-[10px] font-bold uppercase tracking-widest text-white/25 hover:text-white/50 transition-colors list-none select-none">
+            <span>Détails avancés</span>
+            <span className="text-white/20 group-open:rotate-180 transition-transform duration-200 text-base">⌄</span>
+          </summary>
+          <div className="mt-4 flex flex-col gap-3">
+            <LabeledInput label="Heure du message">
+              <input
+                value={msgNotif.time}
+                onChange={(e) => setMsgNotif((n) => ({ ...n, time: e.target.value }))}
+                placeholder="maintenant"
+                className="input"
+              />
+            </LabeledInput>
+            <LabeledInput label={`Heure notif ${config.name}`}>
+              <input
+                value={appNotif.time}
+                onChange={(e) => setAppNotif((n) => ({ ...n, time: e.target.value }))}
+                placeholder="il y a 2 min"
+                className="input"
+              />
+            </LabeledInput>
+            <LabeledInput label="Heure affichée">
+              <input
+                type="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                className="input"
+              />
+            </LabeledInput>
+            <LabeledInput label="Date affichée">
+              <input
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                placeholder="Vendredi 26 juin"
+                className="input"
+              />
+            </LabeledInput>
+            <LabeledInput label="Opérateur">
+              <input
+                value={carrier}
+                onChange={(e) => setCarrier(e.target.value)}
+                placeholder="Orange F"
+                className="input"
+              />
+            </LabeledInput>
+          </div>
+        </details>
       </div>
     </div>
   );
@@ -276,6 +292,15 @@ function Section({ label, children }: { label: string; children: React.ReactNode
   return (
     <div className="flex flex-col gap-2.5">
       <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">{label}</div>
+      {children}
+    </div>
+  );
+}
+
+function LabeledInput({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="text-[11px] text-white/35 font-medium">{label}</span>
       {children}
     </div>
   );
